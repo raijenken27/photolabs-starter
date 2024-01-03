@@ -1,21 +1,31 @@
-import React from "react";
+import React from 'react';
+import PhotoListItem from './components/PhotoListItem';
 
-import "../styles/PhotoListItem.scss";
+const App = () => {
+  // Dummy data for three photos
+  const photosData = [
+    {
+      id: "1",
+      location: {
+        city: "Montreal",
+        country: "Canada",
+      },
+      imageSource: `${process.env.PUBLIC_URL}/Image-1-Regular.jpeg`,
+      username: "Joe Example",
+      profile: `${process.env.PUBLIC_URL}/profile-1.jpg`,
+    },
+    // Repeat similar data for other two photos
+    // ...
+  ];
 
-
-const sampleDataForPhotoListItem = {
-  id: "1",
-  location: {
-    city: "Montreal",
-    country: "Canada",
-  },
-  imageSource: `${process.env.PUBLIC_URL}/Image-1-Regular.jpeg`,
-  username: "Joe Example",
-  profile: `${process.env.PUBLIC_URL}/profile-1.jpg`,
+  return (
+    <div className="App">
+      {/* Use map to dynamically render PhotoListItem components */}
+      {photosData.map((photo) => (
+        <PhotoListItem key={photo.id} {...photo} />
+      ))}
+    </div>
+  );
 };
 
-const PhotoListItem = () => {
-  /* Insert React */
-};
-
-export default PhotoListItem;
+export default App;
