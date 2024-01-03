@@ -1,31 +1,23 @@
 import React from 'react';
-import PhotoListItem from './components/PhotoListItem';
+import PhotoFavButton from './PhotoFavButton';
+import './PhotoListItem.scss';
 
-const App = () => {
-  // Dummy data for three photos
-  const photosData = [
-    {
-      id: "1",
-      location: {
-        city: "Montreal",
-        country: "Canada",
-      },
-      imageSource: `${process.env.PUBLIC_URL}/Image-1-Regular.jpeg`,
-      username: "Joe Example",
-      profile: `${process.env.PUBLIC_URL}/profile-1.jpg`,
-    },
-    // Repeat similar data for other two photos
-    // ...
-  ];
-
+const PhotoListItem = ({ id, location, imageSource, username, profile }) => {
   return (
-    <div className="App">
-      {/* Use map to dynamically render PhotoListItem components */}
-      {photosData.map((photo) => (
-        <PhotoListItem key={photo.id} {...photo} />
-      ))}
+    <div className="photo-list__item">
+      <img src={imageSource} alt={`Photo by ${username}`} />
+      <div className="photo-details">
+        <div className="user-info">
+          <img src={profile} alt={`Profile of ${username}`} />
+          <span>{username}</span>
+        </div>
+        <div className="location">
+          {location.city}, {location.country}
+        </div>
+      </div>
+      <PhotoFavButton />
     </div>
   );
 };
 
-export default App;
+export default PhotoListItem;

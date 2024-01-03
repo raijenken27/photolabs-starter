@@ -16,3 +16,16 @@
   padding: 7px;
   top: 2px;
 }
+
+.photo-fav-button {
+  cursor: pointer;
+  i {
+    font-size: 24px;
+    color: #ccc;
+  }
+  &.active {
+    i {
+      color: red; // Change color for the active state
+    }
+  }
+}

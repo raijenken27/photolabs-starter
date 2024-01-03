@@ -1,24 +1,21 @@
 import React from 'react';
-
 import PhotoListItem from './components/PhotoListItem';
 import './App.scss';
 
-// Note: Rendering a single component to build components in isolation
-const sampleDataForPhotoListItem = {
-  id: "1",
-  location: {
-    city: "Montreal",
-    country: "Canada",
-  },
-  imageSource: `${process.env.PUBLIC_URL}/Image-1-Regular.jpeg`,
-  username: "Joe Example",
-  profile: `${process.env.PUBLIC_URL}/profile-1.jpg`,
-};
+const App = () => {
+  // Dummy data for three photos
+  const photosData = [
+    // ... (your data)
+  ];
 
- const App = () => (
-   <div className="App">
-     {/* The rest of your React code */}
-   </div>
- )
+  return (
+    <div className="App">
+      {/* Use map to dynamically render PhotoListItem components */}
+      {photosData.map((photo) => (
+        <PhotoListItem key={photo.id} {...photo} />
+      ))}
+    </div>
+  );
+};
 
 export default App;
