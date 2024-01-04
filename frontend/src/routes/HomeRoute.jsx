@@ -1,13 +1,13 @@
 import React from 'react';
 import TopNavigationBar from './TopNavigationBar';
-import PhotoList from './PhotoList';
-import '../styles/HomeRoute.scss';
+import { usePhotoContext } from '../contexts/PhotoContext';
 
 const HomeRoute = () => {
+  const { favoritedPhotos } = usePhotoContext();
+
   return (
-    <div className="home-route">
-      <TopNavigationBar />
-      <PhotoList />
+    <div>
+      <TopNavigationBar hasFavoritedPhotos={favoritedPhotos.length > 0} />
     </div>
   );
 };
