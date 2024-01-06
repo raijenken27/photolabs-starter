@@ -1,17 +1,30 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import '../styles/PhotoDetailsModal.scss';
 
 const PhotoDetailsModal = ({ isOpen, onClose }) => {
-  return (
-    <div className={`photo-details-modal ${isOpen ? 'open' : ''}`}>
-      <div className="modal-content">
-        {/* Add your content for displaying larger photo and information */}
+  // Conditionally render the modal based on the 'isOpen' prop
+  return isOpen ? (
+    <div className="modal-overlay" onClick={onClose}>
+      <div className="modal">
+        {/* Close button */}
         <button className="close-button" onClick={onClose}>
-          Close
+          X
         </button>
+
+        {/* Content of the modal */}
+        <div className="modal-content">
+          {/* Add your content here (e.g., larger version of the photo, similar photos) */}
+          <p>Modal Content Goes Here</p>
+        </div>
       </div>
     </div>
-  );
+  ) : null;
+};
+
+PhotoDetailsModal.propTypes = {
+  isOpen: PropTypes.bool.isRequired,
+  onClose: PropTypes.func.isRequired,
 };
 
 export default PhotoDetailsModal;
