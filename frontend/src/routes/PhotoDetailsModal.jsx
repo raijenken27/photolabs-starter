@@ -1,22 +1,25 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
 import '../styles/PhotoDetailsModal.scss';
 
-const PhotoDetailsModal = ({ isOpen, onClose }) => {
-  // Conditionally render the modal based on the 'isOpen' prop
+const PhotoDetailsModal = ({ isOpen, onClose, photo, onToggleLike }) => {
+  useEffect(() => {
+    // Log the details when the modal is opened
+    if (isOpen && photo) {
+      console.log('Selected Photo Details:', photo);
+    }
+  }, [isOpen, photo]);
+
+  const handleLikeClick = () => {
+    // Handle like button click and toggle the like in the context
+    onToggleLike(photo.id);
+  };
+
   return isOpen ? (
     <div className="modal-overlay" onClick={onClose}>
-      <div className="modal">
-        {/* Close button */}
-        <button className="close-button" onClick={onClose}>
-          X
-        </button>
-
-        {/* Content of the modal */}
-        <div className="modal-content">
-          {/* Add your content here (e.g., larger version of the photo, similar photos) */}
-          <p>Modal Content Goes Here</p>
-        </div>
+      <div className="modal-content">
+        {/* ... rest of the modal content ... */}
+        <button onClick={handleLikeClick}>Toggle Like</button>
       </div>
     </div>
   ) : null;
@@ -25,6 +28,8 @@ const PhotoDetailsModal = ({ isOpen, onClose }) => {
 PhotoDetailsModal.propTypes = {
   isOpen: PropTypes.bool.isRequired,
   onClose: PropTypes.func.isRequired,
+  photo: PropTypes.object,
+  onToggleLike: PropTypes.func.isRequired,
 };
 
 export default PhotoDetailsModal;
