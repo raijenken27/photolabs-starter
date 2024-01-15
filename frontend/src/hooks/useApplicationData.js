@@ -1,62 +1,81 @@
-import { useState, useEffect } from 'react';
+import { useReducer, useEffect } from 'react';
 
-// Example function to fetch initial data from an API
-const fetchDataFromAPI = async () => {
-  try {
-    // Your API fetch logic here
-    // Example: const response = await fetch('your-api-endpoint');
-    // Example: const data = await response.json();
-    // Return the data or modify as needed
-    return [];
-  } catch (error) {
-    console.error('Error fetching data:', error);
-    // Handle errors or return default data
-    return [];
-  }
+// Action types
+export const ACTIONS = {
+  FAV_PHOTO_ADDED: 'FAV_PHOTO_ADDED',
+  FAV_PHOTO_REMOVED: 'FAV_PHOTO_REMOVED',
+  SET_PHOTO_DATA: 'SET_PHOTO_DATA',
+  SET_TOPIC_DATA: 'SET_TOPIC_DATA',
+  SELECT_PHOTO: 'SELECT_PHOTO',
+  DISPLAY_PHOTO_DETAILS: 'DISPLAY_PHOTO_DETAILS',
 };
 
-const useApplicationData = () => {
-  const [state, setState] = useState({
-    photos: [],  // Placeholder for your actual state structure
-    favPhotoIds: [],
-    selectedPhoto: null,
-    // Add other state properties as needed
-  });
+// Reducer
+function reducer(state, action) {
+  switch (action.type) {
+    case ACTIONS.FAV_PHOTO_ADDED:
+      return { ...state, favoritePhotos: [...state.favoritePhotos, action.payload] };
+    case ACTIONS.FAV_PHOTO_REMOVED:
+      return {
+        ...state,
+        favoritePhotos: state.favoritePhotos.filter((photo) => photo.id !== action.payload.id),
+      };
+    case ACTIONS.SET_PHOTO_DATA:
+      return { ...state, photos: action.payload };
+    case ACTIONS.SET_TOPIC_DATA:
+      return { ...state, topics: action.payload };
+    case ACTIONS.SELECT_PHOTO:
+      return { ...state, selectedPhoto: action.payload };
+    case ACTIONS.DISPLAY_PHOTO_DETAILS:
+      return { ...state, displayPhotoDetails: action.payload };
+    default:
+      throw new Error(`Unsupported action type: ${action.type}`);
+  }
+}
 
+// Initial state
+const initialState = {
+  photos: [],
+  topics: [],
+  favoritePhotos: [],
+  selectedPhoto: null,
+  displayPhotoDetails: false,
+};
+
+// Custom Hook
+function useApplicationData() {
+  const [state, dispatch] = useReducer(reducer, initialState);
+
+  // Simulate fetching data (replace with your actual fetch logic)
   useEffect(() => {
-    // Fetch initial data when the component mounts
-    const fetchData = async () => {
-      const initialData = await fetchDataFromAPI();
-      setState((prev) => ({ ...prev, photos: initialData }));
+    // Fetch photo data
+    const fetchPhotoData = async () => {
+      // Replace with actual API call
+      const photoData = await fetch('https://api.example.com/photos');
+      const photos = await photoData.json();
+      dispatch({ type: ACTIONS.SET_PHOTO_DATA, payload: photos });
     };
 
-    fetchData();
-  }, []); // Empty dependency array to run the effect only once on mount
+    // Fetch topic data
+    const fetchTopicData = async () => {
+      // Replace with actual API call
+      const topicData = await fetch('https://api.example.com/topics');
+      const topics = await topicData.json();
+      dispatch({ type: ACTIONS.SET_TOPIC_DATA, payload: topics });
+    };
 
-  const updateToFavPhotoIds = (photoId) => {
-    setState((prev) => ({
-      ...prev,
-      favPhotoIds: prev.favPhotoIds.includes(photoId)
-        ? prev.favPhotoIds.filter((id) => id !== photoId)
-        : [...prev.favPhotoIds, photoId],
-    }));
-  };
+    // Call the fetch functions
+    fetchPhotoData();
+    fetchTopicData();
+  }, []); // Ensure this runs only once on mount
 
-  const setPhotoSelected = (photo) => {
-    setState((prev) => ({ ...prev, selectedPhoto: photo }));
-  };
-
-  const onClosePhotoDetailsModal = () => {
-    setState((prev) => ({ ...prev, selectedPhoto: null }));
-  };
+  // Other functions and logic as needed
 
   return {
     state,
-    updateToFavPhotoIds,
-    setPhotoSelected,
-    onClosePhotoDetailsModal,
-    // Add other actions as needed
+    dispatch,
+    // ... (other values or functions)
   };
-};
+}
 
 export default useApplicationData;
