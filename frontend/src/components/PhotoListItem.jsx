@@ -1,23 +1,32 @@
 import React from 'react';
-import PhotoFavButton from './PhotoFavButton';
-import './PhotoListItem.scss';
+import PhotoFavButton from "./PhotoFavButton";
+import "../styles/PhotoListItem.scss";
 
-const PhotoListItem = ({ id, location, imageSource, username, profile }) => {
+const PhotoListItem = (props) => {
+  
+  const handleSidePeekModal = (itemId) => {
+    props.setPhotoDetails({...props.item})
+    
+  }
   return (
-    <div className="photo-list__item">
-      <img src={imageSource} alt={`Photo by ${username}`} />
-      <div className="photo-details">
-        <div className="user-info">
-          <img src={profile} alt={`Profile of ${username}`} />
-          <span>{username}</span>
-        </div>
-        <div className="location">
-          {location.city}, {location.country}
+    <div className="photo-list__item" >
+      <PhotoFavButton
+        handleFavButton={()=> props.handleFavButton(props.item.id)}
+        isPhotoLiked={props.isPhotoLiked(props.item.id)}
+      />
+      <img className="photo-list__image" src={props.item.urls.regular} onClick={()=>{handleSidePeekModal(props.item.id)}}/>
+      <div className="photo-list__user-details" >
+        <img className="photo-list__user-profile " src={props.item.user.profile} />
+        <div className="photo-list__user-info">
+          {props.item.user.username}
+          <div className="photo-list__user-location">
+            {props.item.location.city}, {props.item.location.country}
+          </div>
         </div>
       </div>
-      <PhotoFavButton />
     </div>
   );
 };
+
 
 export default PhotoListItem;
