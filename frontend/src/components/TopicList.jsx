@@ -1,21 +1,26 @@
-// frontend/src/components/TopicList.jsx
+import React from 'react';
 
-import React from "react";
-import TopicListItem from "./TopicListItem";
-import "../styles/TopicList.scss";
+import '../styles/TopNavigationBar.scss';
+import TopicList from './TopicList';
+import FavBadge from './FavBadge';
 
-const sampleTopics = ["Nature", "Travel", "Food", "Architecture", "People"];
+const TopNavigation = (props) => {
 
-const TopicList = (props) => {
+  let isFavPhotoExist = false;
+  if (props.favs.length > 0) isFavPhotoExist = true;
 
-  const parsedTopicList = props.topics.map((item,index)=>{
-    return <TopicListItem key={item.id} item={item} />
-  })
   return (
-    <div className="top-nav-bar__topic-list">
-      {parsedTopicList}
+    <div className="top-nav-bar">
+      <span className="top-nav-bar__logo">PhotoLabs</span>
+      <TopicList
+        topics={props.topics}
+        getPhotosByTopic={props.getPhotosByTopic}
+      />
+      <FavBadge
+        isFavPhotoExist={isFavPhotoExist}
+      />
     </div>
   );
 };
 
-export default TopicList;
+export default TopNavigation;
