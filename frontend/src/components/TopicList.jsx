@@ -6,13 +6,15 @@ import "../styles/TopicList.scss";
 
 const sampleTopics = ["Nature", "Travel", "Food", "Architecture", "People"];
 
-const TopicList = () => {
+const TopicList = (props) => {
+
+  const parsedTopicList = props.topics.map((item,index)=>{
+    return <TopicListItem key={item.id} item={item} />
+  })
   return (
-    <ul className="topic-list">
-      {sampleTopics.map((topic, index) => (
-        <TopicListItem key={index} topic={topic} />
-      ))}
-    </ul>
+    <div className="top-nav-bar__topic-list">
+      {parsedTopicList}
+    </div>
   );
 };
 
