@@ -1,13 +1,18 @@
 import React from "react";
 
-import "../styles/TopicListItem.scss";
+import "../styles/TopicList.scss";
+import TopicListItem from "./TopicListItem";
 
-const TopicListItem = (props) => {
+const TopicList = (props) => {
+
+  const parsedTopicList = props.topics.map((item,index)=>{
+    return <TopicListItem key={item.id} item={item} />
+  })
   return (
-    <div onClick={() => props.getPhotosByTopic(props.id)} className="topic-list__item">
-      <span>{props.title}</span>
+    <div className="top-nav-bar__topic-list">
+      {parsedTopicList}
     </div>
   );
 };
 
-export default TopicListItem;
+export default TopicList;

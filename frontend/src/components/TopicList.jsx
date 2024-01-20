@@ -1,26 +1,18 @@
-import React from 'react';
+import React from "react";
 
-import '../styles/TopNavigationBar.scss';
-import TopicList from './TopicList';
-import FavBadge from './FavBadge';
+import "../styles/TopicList.scss";
+import TopicListItem from "./TopicListItem";
 
-const TopNavigation = (props) => {
+const TopicList = (props) => {
 
-  let isFavPhotoExist = false;
-  if (props.favs.length > 0) isFavPhotoExist = true;
-
+  const parsedTopicList = props.topics.map((item,index)=>{
+    return <TopicListItem key={item.id} item={item} />
+  })
   return (
-    <div className="top-nav-bar">
-      <span className="top-nav-bar__logo">PhotoLabs</span>
-      <TopicList
-        topics={props.topics}
-        getPhotosByTopic={props.getPhotosByTopic}
-      />
-      <FavBadge
-        isFavPhotoExist={isFavPhotoExist}
-      />
+    <div className="top-nav-bar__topic-list">
+      {parsedTopicList}
     </div>
   );
 };
 
-export default TopNavigation;
+export default TopicList;
