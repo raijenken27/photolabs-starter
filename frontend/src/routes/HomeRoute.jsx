@@ -1,31 +1,23 @@
-import React, { useState } from 'react';
-import PhotoListItem from './PhotoListItem';
-import PhotoDetailsModal from '../routes/PhotoDetailsModal';
-import { usePhotoContext } from '../path-to-your/PhotoContext'; // Adjust the path
+import React, {useState} from 'react';
 
-const HomeRoute = () => {
-  const { state, dispatch } = usePhotoContext();
-  const [selectedPhoto, setSelectedPhoto] = useState(null);
-  const [isModalOpen, setModalOpen] = useState(false);
+import '../styles/HomeRoute.scss';
+import TopNavigation from 'components/TopNavigationBar';
+import PhotoList from 'components/PhotoList';
 
-  const handlePhotoClick = (photo) => {
-    setSelectedPhoto(photo);
-    setModalOpen(true);
-  };
+const HomeRoute = (props) => {
 
   return (
     <div className="home-route">
-      {/* Render your list of photos */}
-      <PhotoListItem onClick={handlePhotoClick} />
-
-      {/* Render the modal */}
-      <PhotoDetailsModal
-        isOpen={isModalOpen}
-        onClose={() => setModalOpen(false)}
-        photo={selectedPhoto}
-        onToggleLike={(photoId) =>
-          dispatch({ type: 'TOGGLE_LIKE', payload: photoId })
-        }
+      {/* Insert React */}
+      <TopNavigation
+        topics={props.topics}
+        favList={props.favList}
+      />
+      <PhotoList
+        photos={props.photos}
+        handleFavButton={props.handleFavButton}
+        isPhotoLiked={props.isPhotoLiked}
+        setPhotoDetails={props.setPhotoDetails}
       />
     </div>
   );
